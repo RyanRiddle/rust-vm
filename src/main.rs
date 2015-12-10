@@ -4,24 +4,28 @@ fn eval(toks: Vec<&str>, stack: &mut Vec<i32>)
 {
 	let instruction = toks[0];
 
-	/*match instruction {
-		"PSH" => stack.push(arg),
-		"POP" if stack.len() > 0 => stack.pop(),			// ignore return value
+	match instruction {
+		"PSH" => 
+		{
+			let arg: i32 = match toks[1].trim().parse()
+			{
+				Ok(num) => num,
+				Err(_)  => -1,
+			};
+			stack.push(arg)
+		},
+		"POP" => if stack.len() > 0
+				 {
+					stack.pop();
+				 },			// ignore return value
+		"ADD" =>
+		 {
+			let x = stack.pop().unwrap();
+			let y = stack.pop().unwrap();
+			stack.push(x+y);
+		 },
 		_     => stack.push(-1),
-	}*/
-	if instruction == "PSH"
-	{
-		let arg: i32 = match toks[1].trim().parse() {
-			Ok(num) => num,
-			Err(_) => -1,
-		};
-		stack.push(arg);
 	}
-	else if instruction == "POP"
-	{
-		stack.pop();
-	}
-
 }
 
 fn main() {
